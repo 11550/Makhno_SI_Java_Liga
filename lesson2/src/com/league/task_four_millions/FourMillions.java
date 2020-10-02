@@ -1,8 +1,9 @@
-package com.company.lesson2.task_four_millions;
+package com.league.task_four_millions;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.IntStream;
 
 public class FourMillions {
@@ -16,20 +17,20 @@ public class FourMillions {
         /**
          * Буфер счёта
          */
-        private long count = 0;
+        private AtomicLong count = new AtomicLong(0);
 
         /**
          * Считаем +1
          */
         //синхронизируем метод, используемый в нескольких нитях параллельно
-        public synchronized void increment() {
-            count++;
+        public void increment() {
+            count.getAndIncrement();
         }
 
         /**
          * Получить текущее значение счётчика
          */
-        public long getCount() {
+        public AtomicLong getCount() {
             return count;
         }
     }

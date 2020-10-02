@@ -1,4 +1,4 @@
-package com.company.lesson2.task_dead_lock;
+package com.league.task_dead_lock;
 
 public class DeadLock {
 
@@ -13,9 +13,11 @@ public class DeadLock {
             return name;
         }
 
-        public synchronized void bow(Friend bower) {
-            System.out.format("%s: %s подстрелил меня!\n", this.name, bower.getName());
-            System.out.format("%s: стреляю в ответ!\n", this.name);
+        public void bow(Friend bower) {
+            synchronized (this) {
+                System.out.format("%s: %s подстрелил меня!\n", this.name, bower.getName());
+                System.out.format("%s: стреляю в ответ!\n", this.name);
+            }
             bower.bowBack(this);
         }
 
@@ -33,9 +35,7 @@ public class DeadLock {
         Friend alphonse = new Friend("Alphonse");
         Friend gaston = new Friend("Gaston");
 
-        Thread thread1 = new Thread(() -> alphonse.bow(gaston));
-        thread1.start();
-        thread1.join();
+        new Thread(() -> alphonse.bow(gaston)).start();
         new Thread(() -> gaston.bow(alphonse)).start();
     }
 }
