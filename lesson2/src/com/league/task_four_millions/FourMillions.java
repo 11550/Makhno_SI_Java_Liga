@@ -17,12 +17,12 @@ public class FourMillions {
         /**
          * Буфер счёта
          */
+        //заменив примитив на переменную AtomicLong, мы можем не заботиться об атомарности
         private AtomicLong count = new AtomicLong(0);
 
         /**
          * Считаем +1
          */
-        //синхронизируем метод, используемый в нескольких нитях параллельно
         public void increment() {
             count.getAndIncrement();
         }
